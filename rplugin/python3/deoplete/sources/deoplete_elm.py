@@ -19,7 +19,7 @@ class Source(Base):
         self.mark = '[elm]'
         self.filetypes = ['elm']
         self.rank = 1000
-        self.input_pattern = r'[^\s]*'
+        self.input_pattern = r'[^\s\'"]*'
         self.current = vim.current
         self.vim = vim
         self.elm_oracle_success = False
@@ -28,12 +28,12 @@ class Source(Base):
         self.oracle_cmd = 'elm-oracle'
 
     def get_complete_position(self, context):
-        m = re.search(r'[^\s]*$', context['input'])
+        m = re.search(r'[^\s\'"]*$', context['input'])
         if m:
             return m.start()
 
     def get_complete_query(self, context):
-        m = re.search(r'[^\s]*$', context['input'])
+        m = re.search(r'[^\s\'"]*$', context['input'])
         if m:
             return m.group()
         return None
@@ -55,10 +55,10 @@ class Source(Base):
 
         result = json.loads(jsonData)
 
-        candidates = []
-
         if not result:
-            return candidates
+            return []
+
+        candidates = []
 
         for item in result:
             word = self.get_word(item, query)
