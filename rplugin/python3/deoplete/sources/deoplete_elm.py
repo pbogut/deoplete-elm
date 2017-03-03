@@ -22,7 +22,6 @@ class Source(Base):
         self.input_pattern = r'[^\s\'"]*'
         self.current = vim.current
         self.vim = vim
-        self.elm_oracle_success = False
 
     def on_init(self, context):
         self.oracle_cmd = 'elm-oracle'
@@ -48,9 +47,11 @@ class Source(Base):
             return []
 
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        jsonData = str(proc.stdout.read().decode('utf-8'))
+        output = proc.stdout.read()
+
+        jsonData = str(output.decode('utf-8'))
+
         if not jsonData or jsonData == '':
-            self.try_elm_oracle()
             return []
 
         result = json.loads(jsonData)
@@ -76,18 +77,6 @@ class Source(Base):
             return item['name']
         else:
             return item['fullName']
-
-    def try_elm_oracle(self):
-        if self.elm_oracle_success:
-            return True
-
-        try:
-            subprocess.check_call('{} -h'.format(self.oracle_cmd), shell=True)
-            self.elm_oracle_success = True
-        except:
-            self.vim.command(
-                "echom 'deoplete-elm: Calling \"{}\" faild"
-                ", is elm-oracle installed?'".format(self.oracle_cmd))
 
     def get_project_root(self, file_path):
         current_path = path.dirname(file_path)
