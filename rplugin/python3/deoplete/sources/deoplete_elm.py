@@ -19,7 +19,7 @@ class Source(Base):
         self.mark = '[elm]'
         self.filetypes = ['elm']
         self.rank = 1000
-        self.input_pattern = r'[^\s\'"]*'
+        self.input_pattern = r'\w+'
         self.current = vim.current
         self.vim = vim
 
