@@ -10,7 +10,7 @@ Deoplete-elm offers asynchronous completion of code written in Elm using
 [elm-oracle](https://github.com/ElmCast/elm-oracle) and
 [deoplete.nvim](https://github.com/Shougo/deoplete.nvim).
 
-It requires [neovim](https://github.com/neovim/neovim) as deoplete requires it.
+You can use it on [Vim8 with Python3 support](https://github.com/Shougo/deoplete.nvim#requirements) and [Neovim](https://github.com/neovim/neovim).
 
 ## Demo
 
